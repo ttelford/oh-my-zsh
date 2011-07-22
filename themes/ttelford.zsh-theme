@@ -24,7 +24,7 @@ PROMPT="⎧ ${user_host}:${current_dir}${git_sha}${git_branch}
 RPS1="${return_code}"
 
 ZSH_THEME_GIT_PROMPT_SHA_BEFORE="
-⎪(± "
+⎪ (± "
 ZSH_THEME_GIT_PROMPT_SHA_AFTER=") "
 
 ZSH_THEME_GIT_PROMPT_PREFIX="(%{$GIT_PROMPT_INFO%}"
