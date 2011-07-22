@@ -18,13 +18,13 @@ local git_sha='$(git_prompt_short_sha)'
 #╰─%B$%b "
 #RPS1="${git_branch} ${return_code}"
 #┏┗⎧ ⎩ ┃│ ╱╲╳∆⌘ ⌂ ⌬ ┠ ✪
-PROMPT="┏ ${user_host}:${current_dir}${git_sha}${git_branch}
-┗ %B$%b "
+PROMPT="⎧ ${user_host}:${current_dir}${git_sha}${git_branch}
+⎩ %B$%b "
 #PROMPT="${user_host}:${current_dir}${git_branch}%B$%b "
 RPS1="${return_code}"
 
 ZSH_THEME_GIT_PROMPT_SHA_BEFORE="
-┠ (± "
+⎪(± "
 ZSH_THEME_GIT_PROMPT_SHA_AFTER=") "
 
 ZSH_THEME_GIT_PROMPT_PREFIX="(%{$GIT_PROMPT_INFO%}"
