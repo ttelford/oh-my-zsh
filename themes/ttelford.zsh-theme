@@ -17,8 +17,8 @@ local git_branch='%{$GIT_PROMPT_INFO%}$(git_prompt_info)%{$GIT_DIRTY_COLOR%}$(gi
 #╰─%B$%b "
 #RPS1="${git_branch} ${return_code}"
 #┏┗⎧ ⎩
-PROMPT="⎧${user_host}:${current_dir}${git_branch}
-⎩%B$%b "
+PROMPT="⎧ ${user_host}:${current_dir}${git_branch}
+⎩ %B$%b "
 #PROMPT="${user_host}:${current_dir}${git_branch}%B$%b "
 RPS1="${return_code}"
 
