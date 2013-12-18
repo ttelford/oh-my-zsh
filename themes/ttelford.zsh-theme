@@ -12,7 +12,6 @@ local user_host='%{$terminfo[bold]$fg[green]%}%n@%m%{$reset_color%}'
 local current_dir='%{$terminfo[bold]$fg[blue]%}%~%{$reset_color%}'
 local git_branch='$(git_prompt_info)%{$GIT_DIRTY_COLOR%}$(git_prompt_status)$(git_prompt_ahead)%{$reset_color%}'
 
-
 # Change the box-drawing 'bracket' at the beginning of the prompt to red when in
 # vi command mode:
 function red_chars()
@@ -48,7 +47,7 @@ function cond_newline_git_sha()
 	fi
 }
 
-local git_sha='$(cond__newline_git_sha)'
+local git_sha='$(cond_newline_git_sha)'
 
 # Misc characters
 #╭ ─${user_host} ${current_dir}
