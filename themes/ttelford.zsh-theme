@@ -10,21 +10,56 @@ GIT_PROMPT_INFO=$FG[112]
 
 local user_host='%{$terminfo[bold]$fg[green]%}%n@%m%{$reset_color%}'
 local current_dir='%{$terminfo[bold]$fg[blue]%}%~%{$reset_color%}'
-#local git_branch='$(git_prompt_info)%{$reset_color%}'
 local git_branch='$(git_prompt_info)%{$GIT_DIRTY_COLOR%}$(git_prompt_status)$(git_prompt_ahead)%{$reset_color%}'
-local git_sha='$(git_prompt_short_sha)'
 
-#PROMPT="╭─${user_host} ${current_dir}
-#╰─%B$%b "
-#RPS1="${git_branch} ${return_code}"
+
+# Change the box-drawing 'bracket' at the beginning of the prompt to red when in
+# vi command mode:
+function red_chars()
+{
+	echo "%{$fg[red]%}${1}%{$reset_color%}"
+}
+#local top_box="⎧"
+#local bottom_box="⎩"
+local top_box="┌┤"
+local middle_box=$'\n│'
+local bottom_box=$'\n└─┤'
+function top_prompt_info()
+{
+	echo "${${KEYMAP/vicmd/$(red_chars ${top_box})}/(main|viins)/${top_box}}"
+}
+function middle_prompt_info()
+{
+	echo "${${KEYMAP/vicmd/$(red_chars ${middle_box})}/(main|viins)/${middle_box}}"
+}
+function bottom_prompt_info()
+{
+	echo "${${KEYMAP/vicmd/$(red_chars ${bottom_box})}/(main|viins)/${bottom_box}}"
+}
+local top_prompt='$(top_prompt_info)'
+local middle_prompt='$(middle_prompt_info)'
+local bottom_prompt='$(bottom_prompt_info)'
+function cond_newline_git_sha()
+{
+	short_sha=$(git_prompt_short_sha)
+	if [[ -n ${short_sha} ]]
+	then
+		echo "$(middle_prompt_info)$(git_prompt_short_sha)"
+	fi
+}
+
+local git_sha='$(cond__newline_git_sha)'
+
+# Misc characters
+#╭ ─${user_host} ${current_dir}
+#╰ ─%B$%b "
 #┏┗⎧ ⎩ ┃│ ╱╲╳∆⌘ ⌂ ⌬ ┠ ✪
-PROMPT="⎧ ${user_host}:${current_dir}${git_sha}${git_branch}
-⎩ %B$%b "
-#PROMPT="${user_host}:${current_dir}${git_branch}%B$%b "
-RPS1="${return_code}"
 
-ZSH_THEME_GIT_PROMPT_SHA_BEFORE="
-⎪ (± "
+# Prompt
+PROMPT="${top_prompt} ${user_host}:${current_dir}${git_sha}${git_branch}${bottom_prompt} %B%(!.#.$)%b "
+RPS1='$(vi_mode_prompt_info)${return_code}'
+
+ZSH_THEME_GIT_PROMPT_SHA_BEFORE=" (± "
 ZSH_THEME_GIT_PROMPT_SHA_AFTER=") "
 
 ZSH_THEME_GIT_PROMPT_PREFIX="(%{$GIT_PROMPT_INFO%}"
