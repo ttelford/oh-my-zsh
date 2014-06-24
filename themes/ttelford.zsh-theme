@@ -10,7 +10,6 @@ GIT_PROMPT_INFO=$FG[112]
 
 local user_host='%{$terminfo[bold]$fg[green]%}%n@%m%{$reset_color%}'
 local current_dir='%{$terminfo[bold]$fg[blue]%}%~%{$reset_color%}'
-local git_branch='$(git_prompt_info)%{$GIT_DIRTY_COLOR%}$(git_prompt_status)$(git_prompt_ahead)%{$reset_color%}'
 
 # Change the box-drawing 'bracket' at the beginning of the prompt to red when in
 # vi command mode:
@@ -47,29 +46,34 @@ function cond_newline_git_sha()
 	fi
 }
 
-local git_sha='$(cond_newline_git_sha)'
-
 # Misc characters
 #╭ ─${user_host} ${current_dir}
 #╰ ─%B$%b "
 #┏┗⎧ ⎩ ┃│ ╱╲╳∆⌘ ⌂ ⌬ ┠ ✪
 
 # Prompt
-PROMPT="${top_prompt} ${user_host}:${current_dir}${git_sha}${git_branch}${bottom_prompt} %B%(!.#.$)%b "
+if [[ ${FPATH} == *plugins/git* ]]
+then
+	ZSH_THEME_GIT_PROMPT_SHA_BEFORE=" (± "
+	ZSH_THEME_GIT_PROMPT_SHA_AFTER=") "
+
+	ZSH_THEME_GIT_PROMPT_PREFIX="(%{$GIT_PROMPT_INFO%}"
+	ZSH_THEME_GIT_PROMPT_SUFFIX="%{$GIT_PROMPT_INFO%}%{$reset_color%})"
+	ZSH_THEME_GIT_PROMPT_DIRTY=" %{$GIT_DIRTY_COLOR%}✘ "
+	ZSH_THEME_GIT_PROMPT_CLEAN=" %{$GIT_CLEAN_COLOR%}✔ "
+
+	ZSH_THEME_GIT_PROMPT_AHEAD="%{$FG[082]%}✪ %{$reset_color%} "
+	ZSH_THEME_GIT_PROMPT_ADDED="%{$FG[082]%}✚ %{$reset_color%} "
+	ZSH_THEME_GIT_PROMPT_MODIFIED="%{$FG[166]%}✹ %{$reset_color%}"
+	ZSH_THEME_GIT_PROMPT_DELETED="%{$FG[160]%}✖ %{$reset_color%}"
+	ZSH_THEME_GIT_PROMPT_RENAMED="%{$FG[220]%}➜ %{$reset_color%}"
+	ZSH_THEME_GIT_PROMPT_UNMERGED="%{$FG[082]%}═ %{$reset_color%}"
+	ZSH_THEME_GIT_PROMPT_UNTRACKED="%{$FG[190]%}✭ %{$reset_color%}"
+
+	local git_branch='$(git_prompt_info)%{$GIT_DIRTY_COLOR%}$(git_prompt_status)$(git_prompt_ahead)%{$reset_color%}'
+	local git_sha='$(cond_newline_git_sha)'
+	PROMPT="${top_prompt} ${user_host}:${current_dir}${git_sha}${git_branch}${bottom_prompt} %B%(!.#.$)%b "
+else
+	PROMPT="${top_prompt} ${user_host}:${current_dir}${bottom_prompt} %B%(!.#.$)%b "
+fi
 RPS1='$(vi_mode_prompt_info)${return_code}'
-
-ZSH_THEME_GIT_PROMPT_SHA_BEFORE=" (± "
-ZSH_THEME_GIT_PROMPT_SHA_AFTER=") "
-
-ZSH_THEME_GIT_PROMPT_PREFIX="(%{$GIT_PROMPT_INFO%}"
-ZSH_THEME_GIT_PROMPT_SUFFIX="%{$GIT_PROMPT_INFO%}%{$reset_color%})"
-ZSH_THEME_GIT_PROMPT_DIRTY=" %{$GIT_DIRTY_COLOR%}✘ "
-ZSH_THEME_GIT_PROMPT_CLEAN=" %{$GIT_CLEAN_COLOR%}✔ "
-
-ZSH_THEME_GIT_PROMPT_AHEAD="%{$FG[082]%}✪ %{$reset_color%} "
-ZSH_THEME_GIT_PROMPT_ADDED="%{$FG[082]%}✚ %{$reset_color%} "
-ZSH_THEME_GIT_PROMPT_MODIFIED="%{$FG[166]%}✹ %{$reset_color%}"
-ZSH_THEME_GIT_PROMPT_DELETED="%{$FG[160]%}✖ %{$reset_color%}"
-ZSH_THEME_GIT_PROMPT_RENAMED="%{$FG[220]%}➜ %{$reset_color%}"
-ZSH_THEME_GIT_PROMPT_UNMERGED="%{$FG[082]%}═ %{$reset_color%}"
-ZSH_THEME_GIT_PROMPT_UNTRACKED="%{$FG[190]%}✭ %{$reset_color%}"
