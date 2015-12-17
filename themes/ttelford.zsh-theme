@@ -1,5 +1,7 @@
 # ZSH Theme - Preview: http://gyazo.com/8becc8a7ed5ab54a0262a470555c3eed.png
 #
+# Originally based on "bira"
+#
 # - Look into the 'kolo' theme for what may be a better way to do multiple
 # version control systems.
 local return_code="%(?..%{$fg[red]%}%? ↵%{$reset_color%})"
