@@ -26,15 +26,36 @@ local middle_box=$'\n│'
 local bottom_box=$'\n└─┤'
 function top_prompt_info()
 {
-	echo "${${KEYMAP/vicmd/$(red_chars ${top_box})}/(main|viins)/${top_box}}"
+	local MODE_INDICATOR="%{$fg[red]%}${top_box}%{$reset_color%}"
+	local PROMPTINFO=$(vi_mode_prompt_info)
+	if [[ -z ${PROMPTINFO} ]]
+	then
+		echo "${top_box}"
+	else
+		echo "${PROMPTINFO}"
+	fi
 }
 function middle_prompt_info()
 {
-	echo "${${KEYMAP/vicmd/$(red_chars ${middle_box})}/(main|viins)/${middle_box}}"
+	local MODE_INDICATOR="%{$fg[red]%}${middle_box}%{$reset_color%}"
+	local PROMPTINFO=$(vi_mode_prompt_info)
+	if [[ -z ${PROMPTINFO} ]]
+	then
+		echo "${middle_box}"
+	else
+		echo "${PROMPTINFO}"
+	fi
 }
 function bottom_prompt_info()
 {
-	echo "${${KEYMAP/vicmd/$(red_chars ${bottom_box})}/(main|viins)/${bottom_box}}"
+	local MODE_INDICATOR="%{$fg[red]%}${bottom_box}%{$reset_color%}"
+	local PROMPTINFO=$(vi_mode_prompt_info)
+	if [[ -z ${PROMPTINFO} ]]
+	then
+		echo "${bottom_box}"
+	else
+		echo "${PROMPTINFO}"
+	fi
 }
 local top_prompt='$(top_prompt_info)'
 local middle_prompt='$(middle_prompt_info)'
