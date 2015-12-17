@@ -62,8 +62,8 @@ local middle_prompt='$(middle_prompt_info)'
 local bottom_prompt='$(bottom_prompt_info)'
 function cond_newline_git_sha()
 {
-	short_sha=$(git_prompt_short_sha)
-	if [[ -n ${short_sha} ]]
+	local is_repo=$(command git rev-parse --short HEAD 2> /dev/null)
+	if [[ -n ${is_repo} ]]
 	then
 		echo "$(middle_prompt_info)$(git_prompt_short_sha)"
 	fi
