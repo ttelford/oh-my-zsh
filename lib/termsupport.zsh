@@ -25,7 +25,7 @@ function title {
       print -Pn "\ek${1:q}\e\\" # set screen hardstatus
       ;;
     *)
-      if [[ "$TERM_PROGRAM" == "iTerm.app" ]]; then
+      if [[ "$TERM_PROGRAM" == "iTerm.app" ]] || [[ "$TERM_PROGRAM" == "Apple_Terminal" ]]; then
         print -Pn "\e]2;${2:q}\a" # set window name
         print -Pn "\e]1;${1:q}\a" # set tab name
       else
