@@ -2,9 +2,14 @@
   # %x: name of file containing code being executed
   local fortunes_dir="${${(%):-%x}:h}/fortunes"
 
+  local -a COWS=($(cowsay -l | tail -n+2 | tr '\n' ' '))
+  local -a EXCLUDED_COWS=("Example" "MechAndCow" "Frogs" "TextBalloon" "TuxStab" "sodomized" "telebears")
+  COWS=(${COWS:|EXCLUDED_COWS})
+  local RANDCOW=${COWS[$(($RANDOM % ${#COWS[@]}))]}
+
   # Aliases
   alias chuck="fortune -a $fortunes_dir"
-  alias chuck_cow="chuck | cowthink"
+  alias chuck_cow="chuck | cowthink -W 75 -f ${RANDCOW}"
 
   # Automatically generate or update Chuck's compiled fortune data file
   if [[ "$fortunes_dir/chucknorris" -ot "$fortunes_dir/chucknorris.dat" ]]; then
