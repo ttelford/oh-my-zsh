@@ -3,7 +3,7 @@
   local fortunes_dir="${${(%):-%x}:h}/fortunes"
 
   local -a COWS=($(cowsay -l | tail -n+2 | tr '\n' ' '))
-  local -a EXCLUDED_COWS=("Example" "MechAndCow" "Frogs" "TextBalloon" "TuxStab" "sodomized" "telebears")
+  local -a EXCLUDED_COWS=("Example" "MechAndCow" "Frogs" "TextBalloon" "TuxStab" "sodomized" "telebears" "kiss")
   COWS=(${COWS:|EXCLUDED_COWS})
   local RANDCOW=${COWS[$(($RANDOM % ${#COWS[@]}))]}
 
